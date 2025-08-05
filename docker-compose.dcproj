@@ -15,5 +15,7 @@
     </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
+    <None Include="README.md" />
+    <None Include="README\RequestResponseLoggingExtensions.md" />
   </ItemGroup>
 </Project>

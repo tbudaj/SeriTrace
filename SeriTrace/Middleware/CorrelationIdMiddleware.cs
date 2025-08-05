@@ -181,6 +181,7 @@ namespace SeriTrace.Middleware
 
         /// <summary>
         /// Creates an updated version of the ServiceResponse with a filled envelope.
+        /// For non-object JSON (arrays, primitives), wraps them in a data envelope before adding metadata.
         /// Updates: metadata.correlationId, metadata.timestamp, metadata.durationMs
         /// Preserves: envelope.serverId, envelope.apiVersion, envelope.sessionId, and other custom fields
         /// </summary>
@@ -199,27 +200,43 @@ namespace SeriTrace.Middleware
 
             writer.WriteStartObject();
 
-            // Copy all properties except metadata (which will be updated)
-            foreach (var property in root.EnumerateObject())
+            // Handle non-object JSON (arrays, primitives, etc.) by wrapping in data envelope
+            if (root.ValueKind != JsonValueKind.Object)
             {
-                if (property.Name == "metadata")
-                {
-                    // For root-level metadata, update correlation info
-                    writer.WritePropertyName("metadata");
-                    WriteUpdatedMetadata(writer, property.Value, correlationId, durationMs);
-                }
-                else
-                {
-                    // Copy other properties unchanged (envelope, data, pagination, etc.)
-                    property.WriteTo(writer);
-                }
-            }
-
-            // If metadata did not exist at the root level, create a new one
-            if (!root.TryGetProperty("metadata", out _))
-            {
+                logger.LogDebug("Wrapping non-object JSON response (ValueKind: {ValueKind}) in data envelope", root.ValueKind);
+                
+                // Write the original content as "data" property
+                writer.WritePropertyName("data");
+                root.WriteTo(writer);
+                
+                // Add metadata at the same level as data
                 writer.WritePropertyName("metadata");
                 WriteUpdatedMetadata(writer, default, correlationId, durationMs);
+            }
+            else
+            {
+                // Copy all properties except metadata (which will be updated)
+                foreach (var property in root.EnumerateObject())
+                {
+                    if (property.Name == "metadata")
+                    {
+                        // For root-level metadata, update correlation info
+                        writer.WritePropertyName("metadata");
+                        WriteUpdatedMetadata(writer, property.Value, correlationId, durationMs);
+                    }
+                    else
+                    {
+                        // Copy other properties unchanged (envelope, data, pagination, etc.)
+                        property.WriteTo(writer);
+                    }
+                }
+
+                // If metadata did not exist at the root level, create a new one
+                if (!root.TryGetProperty("metadata", out _))
+                {
+                    writer.WritePropertyName("metadata");
+                    WriteUpdatedMetadata(writer, default, correlationId, durationMs);
+                }
             }
 
             writer.WriteEndObject();
