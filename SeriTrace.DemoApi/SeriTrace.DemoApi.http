@@ -1,0 +1,6 @@
+@SeriTrace.DemoApi_HostAddress = http://localhost:5139
+
+GET {{SeriTrace.DemoApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

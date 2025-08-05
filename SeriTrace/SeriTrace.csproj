@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <!-- Backend microservices dependencies -->
+	  <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+	  <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+	  <PackageReference Include="System.Text.Json" Version="8.0.5" />
+	  <!-- ASP.NET Core dependencies for .NET 8 -->
+	  <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+	  <!-- For WebApplication and WebApplicationBuilder -->
+	  <FrameworkReference Include="Microsoft.AspNetCore.App" />
+	  <PackageReference Include="AutoMapper" Version="12.0.1" />
+
+	  <!-- Serilog packages for comprehensive logging -->
+	  <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
+	  <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
+	  <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+	  <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
+	  <PackageReference Include="Serilog.Enrichers.Environment" Version="2.3.0" />
+	  <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2" />
+	  <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
+	  <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.0" />
+
+	  <!-- Swagger packages -->
+	  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+</Project>

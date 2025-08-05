@@ -1,0 +1,6 @@
+services:
+  seritrace.demoapi:
+    image: ${DOCKER_REGISTRY-}seritracedemoapi
+    build:
+      context: .
+      dockerfile: SeriTrace.DemoApi/Dockerfile
